@@ -1,0 +1,91 @@
+<div class="card">
+  <div class="card-block">
+    <a ui-sref="admin.tambah_jadwal" href="#" class="btn btn-icon btn-info" > <i class="fa fa-plus"></i> {{title}}  </a>
+    <form class="form-inline pull-right">
+      <div class="form-group">
+        <input type="text" ng-model="search" class="form-control" placeholder="Pencarian">
+      </div>
+    </form>
+  </div>
+  <div class="card-block">
+    <table class="table table-hover ">
+      <thead class="thead-default">
+        <tr >
+          <th>Key</th>
+          <th>Fakultas</th>
+          <th>Jurusan</th>
+          <th>Status</th>
+          <th>Metode</th>
+          <th>Terakhir Update</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--<tr ng-repeat="item in data">-->
+        <tr ng-repeat="item in data|filter:search">
+          <td>{{ item.generate_key}}</td>
+          <td>{{ item.faculty_name}}</td>
+          <td>{{ item.major_name}}</td>
+          <td><span ng-if="item.status == 'P' " class="label label-warning">Pending</span> <span ng-if="item.status == 'D' " class="label label-success">Done</span></td>
+          <td><span ng-if="item.methode == 'A' " class="label label-warning">Auto Generate</span> <span ng-if="item.methode == 'M' " class="label label-success">Manual</span></td>
+          <td>{{ item.update_at}}</td>
+          <td>
+            <!-- <a ng-if="item.status == 'P' " href="#" ui-sref="admin.jadwal_tmp_detail({key: item.generate_key})" class="btn btn-success btn-sm" title="Detail"><i class="fa fa-eye"></i></a> -->
+            <!-- <a ng-if="item.status == 'D' " href="#" ui-sref="admin.fakultas_detail({fakultasSeq: item.faculty_seq})" class="btn btn-success btn-sm" title="Detail"><i class="fa fa-eye"></i></a> -->
+            <a href="#" ui-sref="admin.jadwal_detail({Detailkey: item.generate_key})" class="btn btn-success btn-sm" title="Detail"><i class="fa fa-eye"></i></a>
+            <button type="button" class="btn btn-danger btn-sm" title="Hapus" ng-click="deleteModal(item.generate_key)"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+<script type="text/ng-template" id="building-add-modal.html">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title-{{name}}">Tambah Gedung</h4>
+  </div>
+  <div class="modal-body" id="modal-body-{{name}}">
+    <div class="form-group">
+      <input class="form-control" type="text" placeholder="Nama gedung" ng-model="data_input.name">
+    </div>
+    <div class="form-group">
+      <input class="form-control" type="text" placeholder="Deskripsi" ng-model="data_input.description">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-icon btn-success" type="button" ng-click="buildingAdd(data_input)"><i class="fa fa-check"></i>&nbsp;Simpan</button>
+    <button class="btn btn-warning btn-icon"  ng-click="closeAddModal()"><i class="fa fa-close"></i>&nbsp;Tutup</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="schedule-delete-modal.html">
+  <div class="modal-header"> <h5>Konfirmasi</h5></div>
+  <div class="modal-body" id="modal-body-{{name}}">
+    <h5>Menghapus data ini dapat menghapus data terkait lainnya . Anda yakin menghapus data ini ?</h5>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-icon btn-danger" type="button" ng-click="scheduleDelete()"><i class="fa fa-trash"></i>&nbsp;Ya</button>
+    <button class="btn btn-warning btn-icon"  ng-click="closeDeleteModal()"><i class="fa fa-close"></i>&nbsp;Tutup</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="building-edit-modal.html">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Gedung</h4>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <input class="form-control" type="text" placeholder="Nama gedung" ng-model="dataBuilding.name">
+    </div>
+    <div class="form-group">
+      <input class="form-control" type="text" placeholder="Deskripsi" ng-model="dataBuilding.description">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-icon btn-success" type="button" ng-click="buildingEdit(dataBuilding)"><i class="fa fa-check"></i>&nbsp;Simpan</button>
+    <button class="btn btn-warning btn-icon"  ng-click="closeEditModal()"><i class="fa fa-close"></i>&nbsp;Tutup</button>
+  </div>
+</script>
